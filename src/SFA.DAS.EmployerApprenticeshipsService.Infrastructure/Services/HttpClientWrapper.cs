@@ -60,7 +60,7 @@ namespace SFA.DAS.EAS.Infrastructure.Services
             }
             catch (Exception ex)
             {
-                _logger.Error(ex);
+                _logger.Error(ex,$"Exception: Url {url} returned unexpected respone for type:{typeof(T).FullName}");
             }
 
             return default(T);
