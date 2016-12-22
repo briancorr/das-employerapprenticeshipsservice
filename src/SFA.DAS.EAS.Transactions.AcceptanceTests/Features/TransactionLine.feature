@@ -6,9 +6,9 @@
 Scenario: Transaction History levy declarations
 	Given I have an account
 	When I have the following submissions
-		| Paye_scheme | LevyDueYtd | Payroll_Year | Payroll_Month | English_Fraction |
-		| 223/ABC     | 1000       | 16-17        | 11            | 1                |
-		| 223/ABC     | 1100       | 16-17        | 12            | 1                |
+		| Paye_scheme | LevyDueYtd | Payroll_Year | Payroll_Month | English_Fraction | 		
+		| 223/ABC     | 1000       | 16-17        | 11            | 1                |  
+		| 223/ABC     | 1100       | 16-17        | 12            | 1                | 
 	Then the balance should be 1210 on the screen
 
 Scenario: Transaction History levy declarations with multiple schemes
@@ -28,6 +28,27 @@ Scenario: Transaction History levy declarations over Payroll_year
 		| 323/ABC     | 100        | 17-18        | 01            | 1                |
 	Then the balance should be 1100 on the screen
 
+Scenario: Transaction History levy declarations late account registration in payroll year
+	Given I have an account
+	When I have the following submissions
+		| Paye_scheme | LevyDueYtd | Payroll_Year | Payroll_Month | English_Fraction |
+		| 423/ABC     | 1000       | 16-17        | 01            | 1                |
+		| 423/ABC     | 2000       | 16-17        | 02            | 1                |
+		| 423/ABC     | 3000       | 16-17        | 03            | 1                |
+	And I register on DAS in month 03
+	Then the balance should be 3300 on the screen
+	
+Scenario: Transaction History levy declarations late account registration in payroll year
+	Given I have an account
+	When I have the following submissions
+		| Paye_scheme | LevyDueYtd | Payroll_Year | Payroll_Month | English_Fraction |
+		| 425/ABC     | 1000       | 16-17        | 01            | 1                |
+		| 424/ABC     | 100        | 16-17        | 01            | 1                |
+		| 425/ABC     | 2000       | 16-17        | 02            | 1                |
+		| 424/ABC     | 200        | 16-17        | 02            | 1                |	
+	And I register on DAS in month 02
+	Then the balance should be 2420 on the screen
+	
 Scenario: Transaction History levy declarations and Payments
 	Given I have an account
 	When I have the following submissions
